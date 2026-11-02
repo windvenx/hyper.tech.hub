@@ -1,22 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
-// Лог диагностики в «мониторе» — технический текст, не переводится
-const TERMINAL_LINES: { tag: string; text: string; value: string; tone: "ok" | "warn" | "fix" }[] = [
-  { tag: "OK", text: "PSU 12V rail", value: "12.04V", tone: "ok" },
-  { tag: "OK", text: "VRM CPU vcore", value: "1.21V", tone: "ok" },
-  { tag: "!!", text: "PCH short to GND", value: "found", tone: "warn" },
-  { tag: ">>", text: "reflow U2301", value: "fixed", tone: "fix" },
-  { tag: "OK", text: "RAM dual-channel", value: "32GB", tone: "ok" },
-  { tag: "OK", text: "POST code", value: "00", tone: "ok" },
+// Короткий лог диагностики — технический текст, не переводится
+const TERMINAL_LINES: { tag: string; text: string; tone: "ok" | "fix" }[] = [
+  { tag: "!!", text: "short to GND", tone: "fix" },
+  { tag: "OK", text: "repaired", tone: "ok" },
 ];
 
 const toneClass = {
   ok: "text-emerald-400",
-  warn: "text-hyper-bright",
-  fix: "text-amber-300",
+  fix: "text-hyper-bright",
 };
 
 export default function Hero() {
@@ -73,53 +69,33 @@ export default function Hero() {
           </dl>
         </div>
 
-        {/* Монитор с логом диагностики */}
-        <div className="relative mx-auto w-full max-w-md lg:max-w-none" aria-hidden>
-          <div className="absolute -inset-3 border border-red-600/20" />
-          <div className="relative overflow-hidden border border-red-600/50 bg-graphite shadow-[0_0_80px_-20px_rgb(229_9_20/0.5)]">
-            <div className="flex items-center justify-between border-b border-red-600/30 bg-black/60 px-4 py-2.5">
-              <div className="flex gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-hyper" />
-                <span className="h-2.5 w-2.5 rounded-full bg-neutral-600" />
-                <span className="h-2.5 w-2.5 rounded-full bg-neutral-600" />
-              </div>
-              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-500">hyper://diag</span>
-            </div>
+        {/* Логотип-постер и компактный лог диагностики */}
+        <div className="relative mx-auto w-full max-w-sm lg:max-w-md">
+          <div className="absolute -inset-3 border border-red-600/20" aria-hidden />
+          <Image
+            src="/logo.png"
+            alt="HYPER — компьютердик сервис борбору"
+            width={620}
+            height={670}
+            priority
+            className="relative h-auto w-full bg-black shadow-[0_0_80px_-20px_rgb(229_9_20/0.5)]"
+          />
 
-            <div className="relative p-5 font-mono text-[13px] leading-7 sm:p-6">
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-24 animate-scan bg-gradient-to-b from-transparent via-red-500/5 to-transparent" />
-              <p className="text-neutral-500">
-                <span className="text-hyper-bright">$</span> hyper --diagnose motherboard
+          <div
+            className="absolute -bottom-6 -left-4 border border-red-600/50 bg-ink/95 px-4 py-3 font-mono text-xs leading-6 shadow-xl backdrop-blur sm:-left-10"
+            aria-hidden
+          >
+            <p className="text-neutral-500">
+              <span className="text-hyper-bright">$</span> hyper --diag
+            </p>
+            {TERMINAL_LINES.map((line, i) => (
+              <p key={line.text} className="animate-line-in" style={{ animationDelay: `${0.5 + i * 0.5}s` }}>
+                <span className={toneClass[line.tone]}>[{line.tag}]</span> <span className="text-neutral-300">{line.text}</span>
+                {i === TERMINAL_LINES.length - 1 && (
+                  <span className="ml-1 inline-block h-3 w-1.5 translate-y-0.5 animate-blink bg-emerald-400" />
+                )}
               </p>
-              {TERMINAL_LINES.map((line, i) => (
-                <p
-                  key={line.text}
-                  className="flex animate-line-in gap-3"
-                  style={{ animationDelay: `${0.4 + i * 0.35}s` }}
-                >
-                  <span className={toneClass[line.tone]}>[{line.tag}]</span>
-                  <span className="flex-1 truncate text-neutral-300">
-                    {line.text} <span className="text-neutral-700">{".".repeat(24)}</span>
-                  </span>
-                  <span className="text-white">{line.value}</span>
-                </p>
-              ))}
-              <p className="mt-2 animate-line-in text-emerald-400" style={{ animationDelay: "2.8s" }}>
-                &gt; system ready<span className="ml-1 inline-block h-4 w-2 translate-y-0.5 animate-blink bg-emerald-400" />
-              </p>
-            </div>
-
-            <div className="grid grid-cols-3 border-t border-red-600/30 font-mono text-[10px] uppercase tracking-widest text-neutral-500">
-              <div className="border-r border-red-600/20 px-4 py-3">
-                CPU <span className="block text-sm text-white">42°C</span>
-              </div>
-              <div className="border-r border-red-600/20 px-4 py-3">
-                GPU <span className="block text-sm text-white">38°C</span>
-              </div>
-              <div className="px-4 py-3">
-                STATUS <span className="block text-sm text-emerald-400">PASS</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

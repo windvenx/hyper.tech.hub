@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Instagram, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import { Clock, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import Logo from "./Logo";
@@ -10,7 +10,6 @@ export default function Footer() {
 
   const socials = [
     { href: site.instagram, label: "Instagram", Icon: Instagram },
-    { href: site.telegram, label: "Telegram", Icon: Send },
     { href: `https://wa.me/${site.whatsapp}`, label: "WhatsApp", Icon: MessageCircle },
   ];
 
@@ -26,20 +25,27 @@ export default function Footer() {
           <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-hyper-bright">{t.footer.contacts}</h3>
           <ul className="mt-5 space-y-3 text-sm text-neutral-300">
             <li>
-              <a href={`tel:+${site.whatsapp}`} className="flex items-center gap-3 hover:text-white">
+              <a
+                href={`https://wa.me/${site.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 hover:text-white"
+              >
                 <Phone className="h-4 w-4 text-hyper-bright" /> {site.phone}
               </a>
             </li>
             <li>
-              <a href={`mailto:${site.email}`} className="flex items-center gap-3 hover:text-white">
-                <Mail className="h-4 w-4 text-hyper-bright" /> {site.email}
+              <a href={site.map} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white">
+                <MapPin className="h-4 w-4 text-hyper-bright" /> {t.footer.address}
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <MapPin className="h-4 w-4 text-hyper-bright" /> {t.footer.address}
-            </li>
-            <li className="flex items-center gap-3">
               <Clock className="h-4 w-4 text-hyper-bright" /> {t.footer.hours}
+            </li>
+            <li>
+              <a href={site.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white">
+                <Instagram className="h-4 w-4 text-hyper-bright" /> {site.instagramHandle}
+              </a>
             </li>
           </ul>
         </div>

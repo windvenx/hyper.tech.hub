@@ -6,6 +6,7 @@ import { useI18n } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import { LEVELS, validateRegistration, type RegistrationInput } from "@/lib/validation";
 import SectionHeading from "./SectionHeading";
+import Poster from "./Poster";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -68,6 +69,10 @@ export default function RegisterForm() {
             <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgb(52_211_153)]" />
             WhatsApp: {site.phone}
           </a>
+          <div className="mt-10 hidden max-w-sm grid-cols-2 gap-4 lg:grid">
+            <Poster variant="chip" />
+            <Poster variant="meter" />
+          </div>
         </div>
 
         <div className="clip-corner relative border border-red-600/40 bg-ink/90 p-6 shadow-[0_0_80px_-30px_rgb(229_9_20/0.7)] backdrop-blur sm:p-10">

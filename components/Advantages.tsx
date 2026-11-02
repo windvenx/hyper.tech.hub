@@ -3,6 +3,7 @@
 import { Award, Gauge, GraduationCap, Wrench, type LucideIcon } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import SectionHeading from "./SectionHeading";
+import Poster from "./Poster";
 
 const ICONS: LucideIcon[] = [Wrench, GraduationCap, Gauge, Award];
 
@@ -13,9 +14,13 @@ export default function Advantages() {
     <section id="advantages" className="relative overflow-hidden py-20 sm:py-28">
       <div className="bg-grid absolute inset-0 -z-10 opacity-60" aria-hidden />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading tag={t.advantages.tag} title={t.advantages.title} />
+        <div className="grid items-start gap-12 lg:grid-cols-[0.75fr_1.25fr]">
+          <div className="lg:sticky lg:top-24">
+            <SectionHeading tag={t.advantages.tag} title={t.advantages.title} />
+            <Poster variant="solder" className="mt-10 hidden max-w-xs lg:block" />
+          </div>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
+        <div className="grid gap-5">
           {t.advantages.items.map((item, i) => {
             const Icon = ICONS[i] ?? Wrench;
             return (
@@ -38,6 +43,7 @@ export default function Advantages() {
               </article>
             );
           })}
+        </div>
         </div>
       </div>
     </section>
