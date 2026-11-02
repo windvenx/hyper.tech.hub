@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+@theme {
+  --color-hyper: #e50914;
+  --color-hyper-bright: #ff1e27;
+  --color-ink: #0a0a0a;
+  --color-graphite: #121212;
+  --color-steel: #1a1a1a;
+
+  --animate-blink: blink 1s steps(1) infinite;
+  --animate-line-in: line-in 0.4s ease-out both;
+  --animate-scan: scan 6s linear infinite;
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes line-in {
+    from {
+      opacity: 0;
+      transform: translateX(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes scan {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(400%);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--color-ink);
+  color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-hyper);
+  color: #fff;
+}
+
+/* Тонкая техно-сетка на фоне */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Лучи как на логотипе — расходятся из левого нижнего угла */
+.bg-rays {
+  background: repeating-conic-gradient(
+    from 200deg at 15% 110%,
+    rgb(229 9 20 / 0.16) 0deg 3deg,
+    transparent 3deg 9deg
+  );
+  -webkit-mask-image: radial-gradient(ellipse at 20% 100%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 20% 100%, #000 10%, transparent 70%);
+}
+
+/* Неоновое свечение для акцентов */
+.glow-red {
+  box-shadow:
+    0 0 0 1px rgb(229 9 20 / 0.6),
+    0 0 24px -4px rgb(229 9 20 / 0.6);
+}
+
+.text-glow {
+  text-shadow: 0 0 24px rgb(255 30 39 / 0.45);
+}
+
+/* Срезанный угол — «техничная» форма карточек и кнопок */
+.clip-corner {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
