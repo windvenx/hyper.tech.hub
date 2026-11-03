@@ -8,7 +8,7 @@
  * 4. Скопируйте URL веб-приложения (заканчивается на /exec) в GOOGLE_SCRIPT_URL.
  */
 
-const SECRET = "change-me-to-random-string";
+const SECRET = "hyper_kib6ksj2j4WSvDs1U36lMgbTZq7n";
 const SHEET_NAME = "Заявки";
 const HEADERS = ["Дата", "Имя", "Телефон", "Уровень", "Язык", "Статус", "User-Agent"];
 

@@ -1,6 +1,6 @@
 // Контакты и ссылки
 export const site = {
-  name: "hyper.tech.hub",
+  name: "HYPER",
   phone: "+996 554 721 722",
   whatsapp: "996554721722", // только цифры, для ссылки wa.me
   instagram: "https://www.instagram.com/hyper.tech.hub/",
