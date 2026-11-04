@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { t } from "@/lib/content";
 
 // Короткий лог диагностики — технический текст, не переводится
 const TERMINAL_LINES: { tag: string; text: string; tone: "ok" | "fix" }[] = [
@@ -16,8 +16,6 @@ const toneClass = {
 };
 
 export default function Hero() {
-  const { t } = useI18n();
-
   return (
     <section id="top" className="relative isolate overflow-hidden pt-28 pb-20 sm:pt-36 lg:pb-28">
       <div className="bg-grid absolute inset-0 -z-20" aria-hidden />
@@ -62,7 +60,7 @@ export default function Hero() {
             {t.hero.stats.map((s) => (
               <div key={s.label} className="px-4 py-4 first:pl-0">
                 <dt className="sr-only">{s.label}</dt>
-                <dd className="text-2xl font-black italic text-white sm:text-3xl">{s.value}</dd>
+                <dd className="whitespace-nowrap text-xl font-black italic text-white sm:text-2xl">{s.value}</dd>
                 <dd className="mt-1 font-mono text-[11px] uppercase tracking-widest text-neutral-500">{s.label}</dd>
               </div>
             ))}
@@ -74,7 +72,7 @@ export default function Hero() {
           <div className="absolute -inset-3 border border-red-600/20" aria-hidden />
           <Image
             src="/logo.png"
-            alt="HYPER — компьютердик сервис борбору"
+            alt="HYPER — компьютерный сервисный центр"
             width={620}
             height={670}
             priority

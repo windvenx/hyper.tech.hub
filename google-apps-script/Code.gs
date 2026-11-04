@@ -8,9 +8,9 @@
  * 4. Скопируйте URL веб-приложения (заканчивается на /exec) в GOOGLE_SCRIPT_URL.
  */
 
-const SECRET = "hyper_kib6ksj2j4WSvDs1U36lMgbTZq7n";
+const SECRET = "ВСТАВЬТЕ_СЮДА_GOOGLE_SCRIPT_SECRET"; // значение из .env.local / Vercel, в репозиторий не коммитить
 const SHEET_NAME = "Заявки";
-const HEADERS = ["Дата", "Имя", "Телефон", "Уровень", "Язык", "Статус", "User-Agent"];
+const HEADERS = ["Дата", "Имя", "Телефон", "Уровень", "О себе", "Статус", "User-Agent"];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -26,11 +26,11 @@ function doPost(e) {
     const sheet = getSheet();
     sheet.appendRow([
       data.date,
-      data.name,
+      safeText(data.name),
       // апостроф, чтобы Google Sheets не превратил номер в число/формулу
       "'" + data.phone,
       data.level,
-      data.lang,
+      safeText(data.about),
       "Новая",
       data.userAgent,
     ]);
@@ -59,7 +59,17 @@ function getSheet() {
     sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold").setBackground("#E50914").setFontColor("#FFFFFF");
     sheet.setFrozenRows(1);
   }
+  // Таблица, созданная старой версией скрипта: колонка «Язык» → «О себе»
+  if (sheet.getRange(1, 5).getValue() === "Язык") {
+    sheet.getRange(1, 5).setValue("О себе");
+  }
   return sheet;
+}
+
+// Текст, начинающийся с = + - @, Google Sheets примет за формулу — экранируем апострофом
+function safeText(value) {
+  const s = String(value || "");
+  return /^[=+\-@]/.test(s) ? "'" + s : s;
 }
 
 function json(obj) {

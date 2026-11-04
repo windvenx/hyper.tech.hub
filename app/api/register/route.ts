@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { normalizePhone, validateRegistration } from "@/lib/validation";
+import { ABOUT_MAX, normalizePhone, validateRegistration } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
@@ -34,6 +34,7 @@ export async function POST(req: Request) {
     name: String(body.name ?? "").trim().slice(0, 100),
     phone: String(body.phone ?? "").trim().slice(0, 30),
     level: String(body.level ?? ""),
+    about: String(body.about ?? "").trim().slice(0, ABOUT_MAX),
   };
 
   const errors = validateRegistration(input);
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
     name: input.name,
     phone: "+" + normalizePhone(input.phone),
     level: LEVEL_LABELS[input.level],
-    lang: body.lang === "ru" ? "RU" : "KG",
+    about: input.about,
     userAgent: req.headers.get("user-agent")?.slice(0, 200) ?? "",
   };
 

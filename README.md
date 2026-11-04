@@ -1,19 +1,18 @@
 # HYPER — лендинг курсов ремонта ПК (hyper.tech.hub)
 
-Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Lucide React · KG/RU · заявки → Google Таблица
+Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Lucide React · заявки → Google Таблица
 
 ## Структура
 
 ```
 app/
-  layout.tsx              шрифты (с кыргызскими ң ө ү), метаданные, I18nProvider
+  layout.tsx              шрифты, метаданные
   page.tsx                сборка секций
   globals.css             цвета HYPER, сетка, «лучи», анимации
   api/register/route.ts   приём заявки → Google Apps Script
-components/               Header, LangSwitch, Hero, Modules, Advantages, RegisterForm, Footer
+components/               Header, Hero, Modules, Advantages, RegisterForm, Footer
 lib/
-  dictionaries.ts         ВСЕ тексты на KG и RU (редактируйте здесь)
-  i18n.tsx                контекст языка (по умолчанию KG, выбор запоминается)
+  content.ts              ВСЕ тексты сайта и цена (редактируйте здесь)
   validation.ts           общая валидация формы (клиент + сервер)
   site.ts                 телефон, WhatsApp, e-mail, соцсети
 google-apps-script/Code.gs  скрипт для Google Таблицы
@@ -46,7 +45,7 @@ npm run dev
    GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/.../exec
    GOOGLE_SCRIPT_SECRET=hyper-7f3k9q2xLm
    ```
-8. Проверка: откройте URL `/exec` в браузере — должно отобразиться `{"ok":true,"status":"alive"}`. Отправьте тестовую заявку с сайта: появится лист **«Заявки»** с колонками «Дата, Имя, Телефон, Уровень, Язык, Статус, User-Agent».
+8. Проверка: откройте URL `/exec` в браузере — должно отобразиться `{"ok":true,"status":"alive"}`. Отправьте тестовую заявку с сайта: появится лист **«Заявки»** с колонками «Дата, Имя, Телефон, Уровень, О себе, Статус, User-Agent».
 
 > Если вы меняете код скрипта, нужно **Развернуть → Управление развертываниями → ✏ → Версия: новая**, иначе продолжит работать старая версия. URL при этом не меняется.
 
@@ -64,7 +63,7 @@ npm run dev
 
 ## 4. Что поменять под себя
 
-- **Тексты** (оба языка) — `lib/dictionaries.ts`. Тип `Dict` не даст забыть перевод: если добавить ключ в KG и не добавить в RU, TypeScript покажет ошибку.
+- **Тексты и цена** — `lib/content.ts`.
 - **Цифры в Hero** (80% практики, 6 модулей, 2 месяца), адрес, график, сертификат/стажировка — это шаблонные данные, замените на реальные.
 - **Контакты и соцсети** — `lib/site.ts`.
 - **Логотип-картинка** — положите файл в `public/logo.png` и в `components/Logo.tsx` замените текст на

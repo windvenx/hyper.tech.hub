@@ -7,9 +7,20 @@ export type RegistrationInput = {
   name: string;
   phone: string;
   level: string;
+  about: string;
 };
 
-export type FieldError = "nameRequired" | "nameShort" | "phoneRequired" | "phoneInvalid" | "levelRequired";
+export const ABOUT_MIN = 15;
+export const ABOUT_MAX = 1000;
+
+export type FieldError =
+  | "nameRequired"
+  | "nameShort"
+  | "phoneRequired"
+  | "phoneInvalid"
+  | "levelRequired"
+  | "aboutRequired"
+  | "aboutShort";
 
 export function normalizePhone(raw: string): string {
   const digits = raw.replace(/\D/g, "");
@@ -38,6 +49,10 @@ export function validateRegistration(input: RegistrationInput) {
   }
 
   if (!LEVELS.includes(input.level as Level)) errors.level = "levelRequired";
+
+  const about = input.about.trim();
+  if (!about) errors.about = "aboutRequired";
+  else if (about.length < ABOUT_MIN) errors.about = "aboutShort";
 
   return errors;
 }

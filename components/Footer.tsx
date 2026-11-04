@@ -1,13 +1,11 @@
 "use client";
 
 import { Clock, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { t } from "@/lib/content";
 import { site } from "@/lib/site";
 import Logo from "./Logo";
 
 export default function Footer() {
-  const { t } = useI18n();
-
   const socials = [
     { href: site.instagram, label: "Instagram", Icon: Instagram },
     { href: `https://wa.me/${site.whatsapp}`, label: "WhatsApp", Icon: MessageCircle },
@@ -74,7 +72,7 @@ export default function Footer() {
           <span>
             © {new Date().getFullYear()} {site.name}. {t.footer.rights}
           </span>
-          <span>компьютердик сервис борбору</span>
+          <span>{t.footer.slogan}</span>
         </div>
       </div>
     </footer>

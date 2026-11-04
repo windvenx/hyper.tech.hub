@@ -1,15 +1,13 @@
 "use client";
 
-import { Award, Gauge, GraduationCap, Wrench, type LucideIcon } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { Briefcase, GraduationCap, Wrench, type LucideIcon } from "lucide-react";
+import { t } from "@/lib/content";
 import SectionHeading from "./SectionHeading";
 import Poster from "./Poster";
 
-const ICONS: LucideIcon[] = [Wrench, GraduationCap, Gauge, Award];
+const ICONS: LucideIcon[] = [Wrench, GraduationCap, Briefcase];
 
 export default function Advantages() {
-  const { t } = useI18n();
-
   return (
     <section id="advantages" className="relative overflow-hidden py-20 sm:py-28">
       <div className="bg-grid absolute inset-0 -z-10 opacity-60" aria-hidden />

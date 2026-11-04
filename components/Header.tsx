@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { ArrowRight, Menu, X } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { t } from "@/lib/content";
 import Logo from "./Logo";
-import LangSwitch from "./LangSwitch";
 
 export default function Header() {
-  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -47,7 +45,6 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <LangSwitch />
           <a
             href="#register"
             className="clip-corner hidden items-center gap-2 bg-hyper px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-hyper-bright sm:inline-flex"

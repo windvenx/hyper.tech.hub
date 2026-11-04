@@ -2,25 +2,23 @@
 
 import { useState, type FormEvent } from "react";
 import { AlertTriangle, CheckCircle2, ChevronDown, Loader2, Send } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { PRICE, t } from "@/lib/content";
 import { site } from "@/lib/site";
-import { LEVELS, validateRegistration, type RegistrationInput } from "@/lib/validation";
+import { ABOUT_MAX, LEVELS, validateRegistration, type RegistrationInput } from "@/lib/validation";
 import SectionHeading from "./SectionHeading";
 import Poster from "./Poster";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-const EMPTY: RegistrationInput = { name: "", phone: "", level: "" };
+const EMPTY: RegistrationInput = { name: "", phone: "", level: "", about: "" };
 
 export default function RegisterForm() {
-  const { t, lang } = useI18n();
   const [values, setValues] = useState<RegistrationInput>(EMPTY);
   const [touched, setTouched] = useState<Partial<Record<keyof RegistrationInput, boolean>>>({});
   const [status, setStatus] = useState<Status>("idle");
   // Honeypot: скрытое поле, которое заполняют только боты
   const [company, setCompany] = useState("");
 
-  // Ошибки хранятся кодами, поэтому мгновенно переводятся при смене языка
   const errors = validateRegistration(values);
   const showError = (field: keyof RegistrationInput) =>
     touched[field] && errors[field] ? t.form.errors[errors[field]!] : null;
@@ -30,7 +28,7 @@ export default function RegisterForm() {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    setTouched({ name: true, phone: true, level: true });
+    setTouched({ name: true, phone: true, level: true, about: true });
     if (Object.keys(errors).length > 0) return;
 
     setStatus("sending");
@@ -38,7 +36,7 @@ export default function RegisterForm() {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, lang, company }),
+        body: JSON.stringify({ ...values, company }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus("success");
@@ -60,11 +58,15 @@ export default function RegisterForm() {
       <div className="relative mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="lg:pt-6">
           <SectionHeading tag={t.form.tag} title={t.form.title} subtitle={t.form.subtitle} />
+          <div className="mt-8 inline-flex items-baseline gap-4 border border-red-600/40 bg-black/50 px-5 py-4">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-400">{t.form.price}</span>
+            <span className="text-3xl font-black italic text-white">{PRICE}</span>
+          </div>
           <a
             href={`https://wa.me/${site.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-3 font-mono text-sm text-neutral-300 transition hover:text-white"
+            className="mt-6 flex w-fit items-center gap-3 font-mono text-sm text-neutral-300 transition hover:text-white"
           >
             <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgb(52_211_153)]" />
             WhatsApp: {site.phone}
@@ -166,6 +168,21 @@ export default function RegisterForm() {
                   </select>
                   <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-hyper-bright" />
                 </div>
+              </Field>
+
+              <Field id="about" label={t.form.about} error={showError("about")}>
+                <textarea
+                  id="about"
+                  rows={4}
+                  maxLength={ABOUT_MAX}
+                  placeholder={t.form.aboutPh}
+                  value={values.about}
+                  onChange={(e) => update("about", e.target.value)}
+                  onBlur={() => setTouched((s) => ({ ...s, about: true }))}
+                  aria-invalid={!!showError("about")}
+                  aria-describedby="about-error"
+                  className={`${inputBase} ${borderFor("about")} resize-y leading-relaxed`}
+                />
               </Field>
 
               {status === "error" && (
